@@ -1,6 +1,12 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
-<h1 align="center">Notes</h1>
+<h1 align="center">Notes:</h1>
+<br>
+<div style="text-align: center">
+  <a href="link">
+    <img src="https://cdn.windowsreport.com/wp-content/uploads/2017/10/Notes-930x620.jpg" width="50" height="50" align="center"/>
+</div>
+<br>
 <ul class="list-group list-group-flush" id="notes">
   {% for note in user.notes %}
   <li class="list-group-item">
