@@ -17,6 +17,11 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
+or 
+
+```bash
+python3 main.py
+```
 
 ## Viewing The App
 
