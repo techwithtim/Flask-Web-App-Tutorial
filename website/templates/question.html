@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<h1 align="center">Software Architecture Optimization</h1>
+<form method="POST">
+  <p>This a question about Software Architecture</p>
+  <label><input type="radio" value="">Definitely  </label>
+  <label><input type="radio" value="">Likely  </label>
+  <label><input type="radio" value="">Unsure  </label> 
+  <label><input type="radio" value="">Not Likely  </label>
+  <label><input type="radio" value="">Definitely Not  </label>
+  <br/>
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Find Architecture</button>
+  </div>
+</form>
+{% endblock %}
