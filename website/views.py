@@ -4,6 +4,9 @@ import json
 
 views = Blueprint('views', __name__)
 
+f = open('styles.json')
+
+data = json.load(f);
 
 @views.route('/', methods=['GET', 'POST'])
 def home():
