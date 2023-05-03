@@ -1,14 +1,422 @@
 {% extends "base.html" %} {% block title %}Question{% endblock %} {% block content
 %}
 <h1 align="center">Software Architecture Optimization</h1>
+<br/>
 <form method="POST">
+  <!-- the div below is one question -->
   <div>
-    <p>This a question about Software Architecture</p>
-    <label><input type="radio" value="">Definitely  </label>
-    <label><input type="radio" value="">Likely  </label>
-    <label><input type="radio" value="">Unsure  </label> 
-    <label><input type="radio" value="">Not Likely  </label>
-    <label><input type="radio" value="">Definitely Not  </label>
+    <p>
+      <strong>What is the scale of the application?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Very Small</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Very large </p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>What is the projected user base?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Very Small</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Very large </p>
+    </div>
+  </div>  
+  <br/>
+  <div>
+    <p>
+      <strong>How important is security?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Unimportant</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Safety is critical</p>
+    </div>
+  </div>  
+  <br/>
+  <div>
+    <p>
+      <strong>How important is data recovery?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Unimportant</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Data must be recoverable</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Does the system process critical information?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Not essential</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Highly critical</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>How important is performance / efficiency?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Not essential</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Highly critical</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>How important is scalability?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Not scalable</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Must scale</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>How important is resuseability?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">System is very specific</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">System is very reuseable</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Will the system have a centralized data storage?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Extremely widespread data</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Extremely centralized data</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Does the system need to be interactive?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Set it and forget it</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Realtime</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Does the code need to be easily modified by the end user?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Never modified by user</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Highly modifiable</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Will there be a limit to useable bandwidth?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Very limited bandwidth</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Unlimited bandwidth</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Does information need to be accessed randomly?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Data is never accessed</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">All data must be accessable at all times</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Does the application have a specific set of steps to follow?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Strict set of steps which are always followed</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Interactivity / concurency required</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Does the application need to transmit a high volume of information?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Very low traffic</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Very high traffic</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Does the system require or include two way communication?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">None</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Frequently</p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Can information processing be distributed along a network or does it have to be all in one place?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Very Small</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Very large </p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>How likely are future modifications to the application/system?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Very Small</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Very large </p>
+    </div>
+  </div>  
+  <br/>
+
+  <div>
+    <p>
+      <strong>Will the user end of the system be required to process data?</strong>
+    </p>
+
+    <div>
+      <p class="d-inline mx-3">Very Small</p>
+      <input type="radio" name="Q1" id="1" value="1">
+      <label>1</label>
+      <input type="radio" name="Q1" id="2" value="2">
+      <label>2</label>
+      <input type="radio" name="Q1" id="3" value="3">
+      <label>3</label>
+      <input type="radio" name="Q1" id="4" value="4">
+      <label>4</label>
+      <input type="radio" name="Q1" id="5" value="5">
+      <label>5</label>
+      <p class="d-inline mx-3">Very large </p>
+    </div>
   </div>  
   <br/>
   <div align="center">

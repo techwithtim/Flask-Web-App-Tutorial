@@ -1,14 +1,14 @@
-from flask import Blueprint, render_template, request, flash, jsonify
+from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from . import db
 import json
 
 views = Blueprint('views', __name__)
 
-f = open('styles.json')
+# f = open('styles.json')
 
-data = json.load(f);
+# data = json.load(f)
 
-@views.route('/', methods=['GET', 'POST'])
+@views.route('/question', methods=['GET', 'POST'])
 def home():
     #if request.method == 'POST': 
     #     note = request.form.get('note')#Gets the note from the HTML 
@@ -20,7 +20,14 @@ def home():
     #         db.session.add(new_note) #adding the note to the database 
     #         db.session.commit()
     #         flash('Note added!', category='success')
+    
 
+    if request.method == 'POST':
+        return redirect(url_for('views.answer'))
+    return render_template("question.html")
+
+@views.route('/answer')
+def answer():
     return render_template("answer.html")
 
 
