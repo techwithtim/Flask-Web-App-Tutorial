@@ -2,8 +2,7 @@
 %}
 <h1 align="center">Software Architecture Optimization</h1>
 <br/>
-<form method="POST">
-  <!-- the div below is one question -->
+<form action="{{ url_for('views.answer')}}" method="POST">
   <div>
     <p>
       <strong>What is the scale of the application?</strong>
@@ -33,15 +32,15 @@
 
     <div>
       <p class="d-inline mx-3">Very Small</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q2" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q2" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q2" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q2" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q2" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Very large </p>
     </div>
@@ -54,15 +53,15 @@
 
     <div>
       <p class="d-inline mx-3">Unimportant</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q3" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q3" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q3" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q3" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q3" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Safety is critical</p>
     </div>
@@ -75,15 +74,15 @@
 
     <div>
       <p class="d-inline mx-3">Unimportant</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q4" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q4" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q4" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q4" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q4" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Data must be recoverable</p>
     </div>
@@ -97,15 +96,15 @@
 
     <div>
       <p class="d-inline mx-3">Not essential</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q5" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q5" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q5" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q5" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q5" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Highly critical</p>
     </div>
@@ -119,15 +118,15 @@
 
     <div>
       <p class="d-inline mx-3">Not essential</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q6" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q6" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q6" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q6" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q6" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Highly critical</p>
     </div>
@@ -141,15 +140,15 @@
 
     <div>
       <p class="d-inline mx-3">Not scalable</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q7" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q7" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q7" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q7" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q7" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Must scale</p>
     </div>
@@ -163,15 +162,15 @@
 
     <div>
       <p class="d-inline mx-3">System is very specific</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q8" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q8" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q8" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q8" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q8" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">System is very reuseable</p>
     </div>
@@ -185,15 +184,15 @@
 
     <div>
       <p class="d-inline mx-3">Extremely widespread data</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q9" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q9" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q9" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q9" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q9" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Extremely centralized data</p>
     </div>
@@ -207,15 +206,15 @@
 
     <div>
       <p class="d-inline mx-3">Set it and forget it</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q10" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q10" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q10" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q10" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q10" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Realtime</p>
     </div>
@@ -229,15 +228,15 @@
 
     <div>
       <p class="d-inline mx-3">Never modified by user</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q11" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q11" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q11" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q11" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q11" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Highly modifiable</p>
     </div>
@@ -251,15 +250,15 @@
 
     <div>
       <p class="d-inline mx-3">Very limited bandwidth</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q12" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q12" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q12" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q12" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q12" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Unlimited bandwidth</p>
     </div>
@@ -273,15 +272,15 @@
 
     <div>
       <p class="d-inline mx-3">Data is never accessed</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q13" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q13" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q13" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q13" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q13" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">All data must be accessable at all times</p>
     </div>
@@ -295,15 +294,15 @@
 
     <div>
       <p class="d-inline mx-3">Strict set of steps which are always followed</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q14" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q14" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q14" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q14" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q14" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Interactivity / concurency required</p>
     </div>
@@ -317,15 +316,15 @@
 
     <div>
       <p class="d-inline mx-3">Very low traffic</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q15" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q15" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q15" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q15" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q15" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Very high traffic</p>
     </div>
@@ -339,15 +338,15 @@
 
     <div>
       <p class="d-inline mx-3">None</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <input type="radio" name="Q16" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q16" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q16" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q16" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q16" id="5" value="5">
       <label>5</label>
       <p class="d-inline mx-3">Frequently</p>
     </div>
@@ -360,18 +359,18 @@
     </p>
 
     <div>
-      <p class="d-inline mx-3">Very Small</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <p class="d-inline mx-3">Localized</p>
+      <input type="radio" name="Q17" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q17" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q17" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q17" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q17" id="5" value="5">
       <label>5</label>
-      <p class="d-inline mx-3">Very large </p>
+      <p class="d-inline mx-3">Large Network </p>
     </div>
   </div>  
   <br/>
@@ -382,40 +381,40 @@
     </p>
 
     <div>
-      <p class="d-inline mx-3">Very Small</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <p class="d-inline mx-3">Not Likely</p>
+      <input type="radio" name="Q18" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q18" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q18" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q18" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q18" id="5" value="5">
       <label>5</label>
-      <p class="d-inline mx-3">Very large </p>
+      <p class="d-inline mx-3">Very likely </p>
     </div>
   </div>  
   <br/>
 
   <div>
     <p>
-      <strong>Will the user end of the system be required to process data?</strong>
+      <strong>How much processing must be done on the end user's application?</strong>
     </p>
 
     <div>
-      <p class="d-inline mx-3">Very Small</p>
-      <input type="radio" name="Q1" id="1" value="1">
+      <p class="d-inline mx-3">Small Amount</p>
+      <input type="radio" name="Q19" id="1" value="1">
       <label>1</label>
-      <input type="radio" name="Q1" id="2" value="2">
+      <input type="radio" name="Q19" id="2" value="2">
       <label>2</label>
-      <input type="radio" name="Q1" id="3" value="3">
+      <input type="radio" name="Q19" id="3" value="3">
       <label>3</label>
-      <input type="radio" name="Q1" id="4" value="4">
+      <input type="radio" name="Q19" id="4" value="4">
       <label>4</label>
-      <input type="radio" name="Q1" id="5" value="5">
+      <input type="radio" name="Q19" id="5" value="5">
       <label>5</label>
-      <p class="d-inline mx-3">Very large </p>
+      <p class="d-inline mx-3">Large Amount </p>
     </div>
   </div>  
   <br/>

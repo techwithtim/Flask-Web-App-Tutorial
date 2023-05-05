@@ -1,10 +1,10 @@
 {% extends "base.html" %} {% block title %}Result{% endblock %} {% block content
 %}
 </br>
-<h2 align="center">You should use the Client-Server architecture</h2>
+<h2 align="center">You should use the {{text.name}} architecture</h2>
 </br>
 <div align="center">
-  <p>The client-server software architecture style is a network-based model in which client devices, such as desktop computers, laptops, or mobile devices, communicate with a central server over a network. In this architecture style, the client is the requesting device, and the server is the responding device. The client sends requests to the server for services or resources, and the server responds with the requested information. The server is responsible for providing services or resources to the client, such as data storage, application logic, or web content. The server may also perform data processing and calculations on behalf of the client. The client, on the other hand, is responsible for presenting the information to the user and performing user interactions. The client-server architecture style is widely used in web applications, where clients access web pages or web services through web browsers. It is also commonly used in enterprise applications, where multiple clients access a centralized database or application server. One of the primary benefits of the client-server architecture style is its scalability. By centralizing services and resources on a server, multiple clients can access the same information simultaneously. This makes it an ideal architecture style for large-scale applications that require high levels of availability, performance, and security.</p>
-  <img src="{{url_for('static', filename='/Image/client_server.png')}}" style="width:400px;height:300px;">
+  <p>{{text.desc}}</p>
+    <img src={{text.image}} style="width:400px;height:300px;">
 </div>
 {% endblock %}
