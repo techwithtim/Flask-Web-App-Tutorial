@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block title %}Result{% endblock %} {% block content
 %}
+<form action="{{ url_for('views.home')}}" method="POST">
 </br>
 <h2 align="center">You should use the {{text.name}} architecture</h2>
 </br>
@@ -7,4 +8,8 @@
   <p>{{text.desc}}</p>
     <img src={{text.image}} style="width:400px;height:300px;">
 </div>
+<div align="center">
+  <button type="submit" class="btn btn-primary" style="margin-top: 50px;">Return to Question Page</button>
+</div>
+</form>
 {% endblock %}
