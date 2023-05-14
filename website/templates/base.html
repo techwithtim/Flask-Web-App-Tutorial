@@ -27,6 +27,10 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+
+      <!-- this badge feature displays current user's first name -->
+      <span class="badge bg-secondary">Welcome {{user.first_name}}</span>
+      
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
           {% if user.is_authenticated %}
