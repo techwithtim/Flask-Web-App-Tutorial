@@ -21,6 +21,7 @@ def create_app():
 
     from .models import User, Note
     
+    # added because of flask-sqlalchemy update in 3.0
     with app.app_context():
         db.create_all()
 
@@ -34,8 +35,3 @@ def create_app():
 
     return app
 
-
-def create_database(app):
-    if not path.exists('website/' + DB_NAME):
-        db.create_all(app=app)
-        print('Created Database!')
