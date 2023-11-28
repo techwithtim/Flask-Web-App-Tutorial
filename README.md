@@ -1,4 +1,4 @@
-# Flask Web App Tutorial
+# Flask Web App Tutorial Improved! it contains Bootstrap
 
 ## Setup & Installation
 
