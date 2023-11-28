@@ -1,4 +1,4 @@
-# Flask Web App Tutorial
+# Flask Web App Tutorial Improved! Tailwindcss
 
 ## Setup & Installation
 
@@ -6,6 +6,14 @@ Make sure you have the latest version of Python installed.
 
 ```bash
 git clone <repo-url>
+```
+
+```bash
+Linux Virtual Environment Installation
+Make sure you initiate the virtual environment
+before the requirements installation
+python3 -m venv .venv
+. .venv/bin/activate
 ```
 
 ```bash
