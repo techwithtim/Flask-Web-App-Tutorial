@@ -1,4 +1,4 @@
-# Flask Web App Tutorial Improved! it contains Bootstrap
+# Flask Web App Tutorial Improved! Tailwindcss
 
 ## Setup & Installation
 
