@@ -9,6 +9,14 @@ git clone <repo-url>
 ```
 
 ```bash
+Linux Virtual Environment Installation
+Make sure you initiate the virtual environment
+before the requirements installation
+python3 -m venv .venv
+. .venv/bin/activate
+```
+
+```bash
 pip install -r requirements.txt
 ```
 
