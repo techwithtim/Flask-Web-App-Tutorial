@@ -1,5 +1,6 @@
 requests
 flask
 Flask-SQLAlchemy
+SQLAlchemy
 flask-login
 Flask-Bcrypt
