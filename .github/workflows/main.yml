@@ -1,0 +1,34 @@
+name: ZAP Security Scan
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Scan the web application
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: testing
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.10.0
+        with:
+          target: 'http://localhost:5000'  # Change this to your actual application URL
+          # rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
