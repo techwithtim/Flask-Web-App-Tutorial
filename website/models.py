@@ -16,3 +16,12 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     notes = db.relationship('Note')
+
+class QuestionnaireResponse(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    question1 = db.Column(db.String(200), nullable=False)
+    question2 = db.Column(db.String(200), nullable=False)
+    question3 = db.Column(db.String(200), nullable=False)
+    # Add more fields for additional questions
+    user = db.relationship('User', backref=db.backref('responses', lazy=True))

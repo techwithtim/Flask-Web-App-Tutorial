@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Questionnaire</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Questionnaire</h1>
+    <form method="POST" action="{{ url_for('questionnaire.show_questionnaire') }}">
+      {{ form.hidden_tag() }}
+      <div>
+        {{ form.question1.label }}<br>
+        {{ form.question1(size=40) }}<br>
+      </div>
+      <div>
+        {{ form.question2.label }}<br>
+        {{ form.question2(size=40) }}<br>
+      </div>
+      <div>
+        {{ form.question3.label }}<br>
+        {{ form.question3(size=40) }}<br>
+      </div>
+      <div>
+        {{ form.submit() }}
+      </div>
+    </form>
+  </div>
+</body>
+</html>
