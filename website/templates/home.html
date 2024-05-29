@@ -4,17 +4,17 @@
 <h1 align="center">Questionnaire</h1>
 <form method="POST" action="{{ url_for('views.home') }}">
   {{ form.hidden_tag() }}
-  <div>
-    {{ form.question1.label }}<br>
-    {{ form.question1(size=40) }}<br>
+  <div class="form-group">
+    <label>{{ form.question1.label }}</label><br>
+    {{ form.question1 }}
   </div>
-  <div>
-    {{ form.question2.label }}<br>
-    {{ form.question2(size=40) }}<br>
+  <div class="form-group">
+    <label>{{ form.question2.label }}</label><br>
+    {{ form.question2 }}
   </div>
-  <div>
-    {{ form.question3.label }}<br>
-    {{ form.question3(size=40) }}<br>
+  <div class="form-group">
+    <label>{{ form.question3.label }}</label><br>
+    {{ form.question3 }}
   </div>
   <div>
     {{ form.submit() }}

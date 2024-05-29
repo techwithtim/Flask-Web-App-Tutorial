@@ -27,13 +27,11 @@ def login():
 
     return render_template("login.html", user=current_user)
 
-
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
-
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
@@ -65,7 +63,6 @@ def sign_up():
 
     return render_template("sign_up.html", user=current_user)
 
-
 @questionnaire.route('/questionnaire', methods=['GET', 'POST'])
 @login_required
 def show_questionnaire():
@@ -73,14 +70,14 @@ def show_questionnaire():
     if form.validate_on_submit():
         response = QuestionnaireResponse(
             user_id=current_user.id,
-            question1=form.question1.data,
-            question2=form.question2.data,
-            question3=form.question3.data
+            question1=','.join(form.question1.data),
+            question2=','.join(form.question2.data),
+            question3=','.join(form.question3.data)
             # Add more fields as needed
         )
         db.session.add(response)
         db.session.commit()
         flash('Thank you for completing the questionnaire!', 'success')
-        return redirect(url_for('views.home'))  # Adjust as needed
+        return redirect(url_for('views.home'))
 
     return render_template('questionnaire.html', form=form)
