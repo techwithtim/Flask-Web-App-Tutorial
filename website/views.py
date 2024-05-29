@@ -10,6 +10,11 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    return render_template("home.html", user=current_user)
+
+@views.route('/questionnaire', methods=['GET', 'POST'])
+@login_required
+def questionnaire():
     form = QuestionnaireForm()
     if form.validate_on_submit():
         response = QuestionnaireResponse(
@@ -21,6 +26,6 @@ def home():
         db.session.add(response)
         db.session.commit()
         flash('Thank you for completing the questionnaire!', 'success')
-        return redirect(url_for('views.home'))
+        return redirect(url_for('views.questionnaire'))
 
-    return render_template("home.html", user=current_user, form=form)
+    return render_template("questionnaire.html", user=current_user, form=form)
