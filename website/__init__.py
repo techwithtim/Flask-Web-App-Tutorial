@@ -17,7 +17,7 @@ def create_app():
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/auth')
-    app.register_blueprint(questionnaire, url_prefix='/questionnaire')
+    app.register_blueprint(questionnaire, url_prefix='/')
 
     from .models import User, Note, QuestionnaireResponse
     
