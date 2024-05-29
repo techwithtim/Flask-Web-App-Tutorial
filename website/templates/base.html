@@ -34,7 +34,7 @@
           <a class="nav-item nav-link" id="logout" href="{{ url_for('auth.logout') }}">Logout</a>
           {% else %}
           <a class="nav-item nav-link" id="login" href="/login">Login</a>
-          <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+          <a class="nav-item nav-link" id="signUp" href="{{ url_for('sign_up.html')}}>Sign Up</a>
           {% endif %}
         </div>
       </div>
