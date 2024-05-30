@@ -24,6 +24,10 @@
     <script>
         // Initialize an empty array to store weight data
         let weights = [];
+        
+        // Initialize the chart
+        const ctx = document.getElementById('weightChart').getContext('2d');
+        let weightChart;
 
         // Function to add or update weight data
         function addOrUpdateWeight() {
@@ -89,7 +93,6 @@
 
         // Function to update the chart
         function updateChart() {
-            const ctx = document.getElementById('weightChart').getContext('2d');
             const labels = Array.from({ length: weights.length }, (_, i) => `Day ${i + 1}`);
             const data = {
                 labels: labels,
@@ -110,11 +113,18 @@
                     }]
                 }
             };
-            const weightChart = new Chart(ctx, {
-                type: 'line',
-                data: data,
-                options: options
-            });
+            // If chart exists, update it; otherwise, create new chart
+            if (weightChart) {
+                weightChart.data = data;
+                weightChart.options = options;
+                weightChart.update();
+            } else {
+                weightChart = new Chart(ctx, {
+                    type: 'line',
+                    data: data,
+                    options: options
+                });
+            }
         }
     </script>
 {% endblock %}
