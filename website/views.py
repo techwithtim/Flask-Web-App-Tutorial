@@ -13,7 +13,7 @@ questions_data = {
         'choices': [('1', 'Yes'), ('2', 'No')],
         'next': {
             '1': '1.1',  # Follow-up questions for answer '1'
-            '2': 'end'   # Redirect to workout split for answer '2'
+            '2': 'end_condition1'   # Redirect to workout split for answer '2'
         }
     },
     '1.1': {
@@ -21,19 +21,49 @@ questions_data = {
         'choices': [('A', 'Chest'), ('B', 'Back'), ('C', 'Arms'), ('D', 'Shoulders'), ('E', 'Legs')],
         'multi': True,
         'next': {
-            'A': 'end',
-            'B': 'end',
-            'C': 'end',
-            'D': 'end',
-            'E': 'end'
+            'A': 'end_condition2',
+            'B': 'end_condition2',
+            'C': 'end_condition2',
+            'D': 'end_condition2',
+            'E': 'end_condition2'
         }
     },
-    '1.1.1': {
-        'text': 'Follow-up Question 1.1.1: [Placeholder]',
-        'choices': [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
-        'next': {}
+    '2': {
+        'text': 'Are there any muscle groups you DO NOT want to exercise?',
+        'choices': [('1', 'Yes'), ('2', 'No')],
+        'next': {
+            '1': '2.1',  # Follow-up questions for answer '1'
+            '2': 'end_condition3'   # Redirect to workout split for answer '2'
+        }
     },
+    '2.1': {
+        'text': 'Select all muscle groups you DO NOT want to exercise',
+        'choices': [('A', 'Chest'), ('B', 'Back'), ('C', 'Arms'), ('D', 'Shoulders'), ('E', 'Legs')],
+        'multi': True,
+        'next': {
+            'A': 'end_condition3',
+            'B': 'end_condition3',
+            'C': 'end_condition3',
+            'D': 'end_condition3',
+            'E': 'end_condition3'
+        }
+    },
+    '2.2': {
+        'text': 'Do you want to workout on back to back days?',
+        'choices': [('1', 'Yes'), ('2', 'No')],
+        'next': {
+            '1': 'end_condition3',
+            '2': 'end_condition3'
+        }
+    }
     # ... other questions ...
+}
+
+conditions_messages = {
+    'condition1': 'Message for condition 1',
+    'condition2': 'Message for condition 2',
+    'condition3': 'Message for condition 3',
+    # Add more conditions and messages as needed
 }
 
 @views.route('/questionnaire', methods=['GET', 'POST'])
@@ -45,6 +75,7 @@ def questionnaire():
         session['current_question'] = '1'  # Start with question id '1'
         session['history'] = []  # Initialize history
         session['responses'] = {}  # Initialize responses
+        session['condition'] = ''  # Initialize condition
         return redirect(url_for('views.dynamic_question'))
     return render_template('questionnaire.html', form=form)
 
@@ -65,13 +96,13 @@ def dynamic_question():
         if 'next' in request.form:
             if form.validate():
                 answer = form.answer.data
+                # Ensure answer is stored as a list
+                if not isinstance(answer, list):
+                    answer = [answer]
                 session['responses'][current_question_id] = answer
-                if isinstance(answer, list):
-                    # Handle multi-select answers
-                    next_question_id = question['next'].get(answer[0], None)  # Choose appropriate logic for multi-select
-                else:
-                    next_question_id = question['next'].get(answer, None)
-                if next_question_id == 'end':
+                next_question_id = question['next'].get(answer[0], None)
+                if next_question_id and next_question_id.startswith('end_condition'):
+                    session['condition'] = next_question_id.replace('end_', '')
                     return redirect(url_for('views.split'))  # Redirect to workout split tab at the end of the branch
                 elif next_question_id:
                     session['history'].append(current_question_id)
@@ -97,8 +128,20 @@ def home():
 def split():
     # Use session['responses'] to customize the workout split
     responses = session.get('responses', {})
-    # Process responses to customize the workout split
-    return render_template("split.html", user=current_user, responses=responses)
+    condition = session.get('condition', 'condition1')  # Default to condition1
+    days = session.get('days', 0)
+    muscle_groups = {
+        'A': 'Chest',
+        'B': 'Back',
+        'C': 'Arms',
+        'D': 'Shoulders',
+        'E': 'Legs'
+    }
+    excluded_groups = responses.get('1.1', [])
+    included_groups = [muscle_groups[key] for key in muscle_groups if key not in excluded_groups]
+    message = conditions_messages.get(condition, 'Default message')
+    
+    return render_template("split.html", user=current_user, included_groups=included_groups, days=days, message=message)
 
 @views.route('/tracker', methods=['GET'])
 @login_required

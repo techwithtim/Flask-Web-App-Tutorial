@@ -5,43 +5,14 @@
 
 <p>Based on your preferences, here is your workout plan:</p>
 
+<h2>Workout Plan:</h2>
+<p>Days per week: {{ days }}</p>
 <ul>
-  {% for key, answer in responses.items() %}
-    <li>Question {{ key }}: {{ answer }}</li>
+  {% for group in included_groups %}
+    <li>{{ group }}</li>
   {% endfor %}
 </ul>
 
-<h2>Workout Plan:</h2>
-{% if '1.1' in responses %}
-  <p>You have selected to not work on the following muscle groups:</p>
-  <ul>
-    {% if 'A' in responses['1.1'] %}
-      <li>Chest</li>
-    {% endif %}
-    {% if 'B' in responses['1.1'] %}
-      <li>Back</li>
-    {% endif %}
-    {% if 'C' in responses['1.1'] %}
-      <li>Arms</li>
-    {% endif %}
-    {% if 'D' in responses['1.1'] %}
-      <li>Shoulders</li>
-    {% endif %}
-    {% if 'E' in responses['1.1'] %}
-      <li>Legs</li>
-    {% endif %}
-  </ul>
-{% else %}
-  <p>Full Body Workout</p>
-{% endif %}
-
-<!-- Add more customized workout plan logic here based on other responses -->
-<!-- Example:
-{% if 'some_other_question' in responses %}
-  {% if responses['some_other_question'] == 'some_answer' %}
-    <p>Specific workout recommendation based on some_answer.</p>
-  {% endif %}
-{% endif %}
--->
+<p>{{ message }}</p>
 
 {% endblock %}
