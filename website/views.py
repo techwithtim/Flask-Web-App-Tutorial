@@ -1,19 +1,18 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 from flask_login import login_required, current_user
 from .forms import InitialQuestionForm, create_dynamic_form
-from .models import QuestionnaireResponse
+from .models import User, Weight
+from . import db
 
-# Initialize the Blueprint
 views = Blueprint('views', __name__)
 
-# Sample nested questions data
 questions_data = {
     '1': {
         'text': 'Are there any muscle groups you DO NOT want to exercise?',
         'choices': [('1', 'Yes'), ('2', 'No')],
         'next': {
-            '1': '1.1',  # Follow-up questions for answer '1'
-            '2': 'end_condition1'   # Redirect to workout split for answer '2'
+            '1': '1.1',
+            '2': 'end_condition1'
         }
     },
     '1.1': {
@@ -32,8 +31,8 @@ questions_data = {
         'text': 'Are there any muscle groups you DO NOT want to exercise?',
         'choices': [('1', 'Yes'), ('2', 'No')],
         'next': {
-            '1': '2.1',  # Follow-up questions for answer '1'
-            '2': 'end_condition3'   # Redirect to workout split for answer '2'
+            '1': '2.1',
+            '2': 'end_condition3'
         }
     },
     '2.1': {
@@ -56,14 +55,12 @@ questions_data = {
             '2': 'end_condition3'
         }
     }
-    # ... other questions ...
 }
 
 conditions_messages = {
     'condition1': 'Message for condition 1',
     'condition2': 'Message for condition 2',
-    'condition3': 'Message for condition 3',
-    # Add more conditions and messages as needed
+    'condition3': 'Message for condition 3'
 }
 
 @views.route('/questionnaire', methods=['GET', 'POST'])
@@ -72,10 +69,10 @@ def questionnaire():
     if form.validate_on_submit():
         days = form.days.data
         session['days'] = days
-        session['current_question'] = '1'  # Start with question id '1'
-        session['history'] = []  # Initialize history
-        session['responses'] = {}  # Initialize responses
-        session['condition'] = ''  # Initialize condition
+        session['current_question'] = '1'
+        session['history'] = []
+        session['responses'] = {}
+        session['condition'] = ''
         return redirect(url_for('views.dynamic_question'))
     return render_template('questionnaire.html', form=form)
 
@@ -87,7 +84,7 @@ def dynamic_question():
     
     question = questions_data.get(current_question_id)
     if question is None:
-        return redirect(url_for('views.questionnaire'))  # Redirect to start if question not found
+        return redirect(url_for('views.questionnaire'))
     
     DynamicForm = create_dynamic_form(question)
     form = DynamicForm()
@@ -96,20 +93,19 @@ def dynamic_question():
         if 'next' in request.form:
             if form.validate():
                 answer = form.answer.data
-                # Ensure answer is stored as a list
                 if not isinstance(answer, list):
                     answer = [answer]
                 session['responses'][current_question_id] = answer
                 next_question_id = question['next'].get(answer[0], None)
                 if next_question_id and next_question_id.startswith('end_condition'):
                     session['condition'] = next_question_id.replace('end_', '')
-                    return redirect(url_for('views.split'))  # Redirect to workout split tab at the end of the branch
+                    return redirect(url_for('views.split'))
                 elif next_question_id:
                     session['history'].append(current_question_id)
                     session['current_question'] = next_question_id
                     return redirect(url_for('views.dynamic_question'))
                 else:
-                    return redirect(url_for('views.questionnaire'))  # Redirect to start if no next question
+                    return redirect(url_for('views.questionnaire'))
         elif 'back' in request.form:
             if session['history']:
                 previous_question_id = session['history'].pop()
@@ -126,9 +122,8 @@ def home():
 @views.route('/split', methods=['GET'])
 @login_required
 def split():
-    # Use session['responses'] to customize the workout split
     responses = session.get('responses', {})
-    condition = session.get('condition', 'condition1')  # Default to condition1
+    condition = session.get('condition', 'condition1')
     days = session.get('days', 0)
     muscle_groups = {
         'A': 'Chest',
@@ -148,7 +143,21 @@ def split():
 def tracker():
     return render_template("tracker.html", user=current_user)
 
-@views.route('/weight_tracker', methods=['GET'])
+@views.route('/weight_tracker', methods=['GET', 'POST'])
 @login_required
 def weight_tracker():
-    return render_template("weight_tracker.html", user=current_user)
+    if request.method == 'POST':
+        weight = request.form.get('weight')
+        if weight:
+            new_weight = Weight(weight=float(weight), user_id=current_user.id)
+            db.session.add(new_weight)
+            db.session.commit()
+    weights = Weight.query.filter_by(user_id=current_user.id).order_by(Weight.date).all()
+    return render_template("weight_tracker.html", user=current_user, weights=weights)
+
+@views.route('/get_weights')
+@login_required
+def get_weights():
+    weights = Weight.query.filter_by(user_id=current_user.id).order_by(Weight.date).all()
+    weights_data = [{"date": w.date.strftime("%Y-%m-%d"), "weight": w.weight} for w in weights]
+    return jsonify(weights_data)

@@ -14,3 +14,4 @@ def create_dynamic_form(question):
             answer = RadioField(question['text'], choices=question['choices'], coerce=str)
         submit = SubmitField('Next')
     return DynamicForm
+

@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Workout Split
+    Weight Tracker
 {% endblock %}
 
 {% block content %}
     <div id="container">
         <h2>Weight Tracker</h2>
-        <label for="weightInput">Enter your weight:</label>
-        <input type="number" id="weightInput" step="0.1" min="0" placeholder="Enter your weight in lbs">
-        <button onclick="addWeight()">Add Weight</button>
+        <form method="POST" action="{{ url_for('views.weight_tracker') }}">
+            <label for="weightInput">Enter your weight:</label>
+            <input type="number" id="weightInput" name="weight" step="0.1" min="0" placeholder="Enter your weight in lbs" required>
+            <button type="submit">Add Weight</button>
+        </form>
         <select id="daySelect"></select>
         <input type="number" id="newWeightInput" step="0.1" min="0" placeholder="Enter new weight">
-        <button onclick="undoWeight()">Undo</button>
+        <button onclick="undoWeight()">Change</button>
         <div>
             <canvas id="weightChart"></canvas>
         </div>
@@ -23,11 +25,24 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Initialize an empty array to store weight data
         let weights = [];
         let weightChart;
 
-        // Function to add weight data
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchWeights();
+        });
+
+        function fetchWeights() {
+            fetch("{{ url_for('views.get_weights') }}")
+                .then(response => response.json())
+                .then(data => {
+                    weights = data;
+                    updateChart();
+                    updateWeightLog();
+                    updateDaySelect();
+                });
+        }
+
         function addWeight() {
             const weightInput = document.getElementById('weightInput');
             const weight = parseFloat(weightInput.value);
@@ -43,7 +58,6 @@
             }
         }
 
-        // Function to update the day selection dropdown
         function updateDaySelect() {
             const daySelect = document.getElementById('daySelect');
             daySelect.innerHTML = '';
@@ -55,7 +69,6 @@
             }
         }
 
-        // Function to undo weight entry
         function undoWeight() {
             const daySelect = document.getElementById('daySelect');
             const selectedIndex = daySelect.selectedIndex;
@@ -75,7 +88,6 @@
             }
         }
 
-        // Function to update the weight log
         function updateWeightLog() {
             const weightLog = document.getElementById('weightLog');
             weightLog.innerHTML = '';
@@ -84,10 +96,9 @@
             });
         }
 
-        // Function to update the chart
         function updateChart() {
             const ctx = document.getElementById('weightChart').getContext('2d');
-            const labels = Array.from({ length: weights.length }, (_, i) => `Day ${i + 1}`);
+            const labels = weights.map(entry => entry.date);
             const data = {
                 labels: labels,
                 datasets: [{
