@@ -151,3 +151,8 @@ def split():
 @login_required
 def tracker():
     return render_template("tracker.html", user=current_user)
+
+@views.route('/weight_tracker', methods=['GET'])
+@login_required
+def weight_tracker():
+    return render_template("weight_tracker.html", user=current_user)

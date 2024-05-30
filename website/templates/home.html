@@ -15,10 +15,21 @@
   <li class="nav-item">
     <a class="nav-link" id="tracker-tab" href="{{ url_for('views.tracker') }}" role="tab" aria-controls="tracker" aria-selected="false">Workout Tracker</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" id="weight-tracker-tab" href="{{ url_for('views.weight_tracker') }}" role="tab" aria-controls="weight-tracker" aria-selected="false">Weight Tracker</a>
+  </li>
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-    <p>Welcome to the homepage!</p>
+    <p>Welcome to PhySeek: Your Personalized Fitness Destination!
+
+      At PhySeek, we believe that achieving your fitness goals should be personalized, convenient, and effective. That's why we've created a platform where you can embark on your fitness journey with confidence.
+      
+      Whether you're looking to build muscle, lose weight, improve endurance, or simply enhance your overall health, our custom-tailored workouts are designed to fit your unique needs and goals. Say goodbye to generic routines and hello to workouts that evolve with you.
+      
+      Track your progress effortlessly with our intuitive tools and charts, allowing you to see your achievements in real-time and stay motivated every step of the way. Whether you're a seasoned gym-goer or just starting out, PhySeek is here to support you on your path to a healthier, happier you.
+      
+      So, are you ready to unleash your full potential? Let's get started on your journey to a fitter, stronger, and more vibrant you. Welcome to PhySeek! Fill out the Questionnaire and start lifting today!</p>
   </div>
 </div>
 {% endblock %}
