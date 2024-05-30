@@ -1,33 +1,37 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from flask_login import login_required, current_user
 from .models import QuestionnaireResponse
-from .forms import QuestionnaireForm
 from . import db
+from .forms import InitialQuestionForm, SecondQuestionForm
 
+# Initialize the Blueprint
 views = Blueprint('views', __name__)
+
+# Define the routes within the Blueprint
+@views.route('/questionnaire', methods=['GET', 'POST'])
+def questionnaire():
+    form = InitialQuestionForm()
+    if form.validate_on_submit():
+        days = form.days.data
+        session['days'] = days
+        return redirect(url_for('views.question2'))
+    return render_template('questionnaire.html', form=form)
+
+@views.route('/question2', methods=['GET', 'POST'])
+def question2():
+    days = session.get('days')
+    if days is None:
+        return redirect(url_for('views.questionnaire'))
+    form = SecondQuestionForm()
+    if form.validate_on_submit():
+        # Process the form data and redirect to the next question or a results page
+        return redirect(url_for('views.questionnaire'))  # For now, redirect back to the start
+    return render_template('question2.html', days=days, form=form)
 
 @views.route('/', methods=['GET'])
 @login_required
 def home():
     return render_template("home.html", user=current_user)
-
-@views.route('/questionnaire', methods=['GET', 'POST'])
-@login_required
-def questionnaire():
-    form = QuestionnaireForm()
-    if form.validate_on_submit():
-        response = QuestionnaireResponse(
-            user_id=current_user.id,
-            question1=form.question1.data,
-            question2=form.question2.data,
-            question3=form.question3.data
-        )
-        db.session.add(response)
-        db.session.commit()
-        flash('Thank you for completing the questionnaire!', 'success')
-        return redirect(url_for('views.questionnaire'))
-
-    return render_template("questionnaire.html", user=current_user, form=form)
 
 @views.route('/split', methods=['GET'])
 @login_required

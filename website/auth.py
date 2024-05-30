@@ -3,7 +3,6 @@ from .models import User, QuestionnaireResponse
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-from .forms import QuestionnaireForm
 
 auth = Blueprint('auth', __name__)
 questionnaire = Blueprint('questionnaire', __name__)

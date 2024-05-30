@@ -5,16 +5,8 @@
 <form method="POST" action="{{ url_for('views.questionnaire') }}">
   {{ form.hidden_tag() }}
   <div class="form-group">
-    <label>{{ form.question1.label }}</label><br>
-    {{ form.question1 }}
-  </div>
-  <div class="form-group">
-    <label>{{ form.question2.label }}</label><br>
-    {{ form.question2 }}
-  </div>
-  <div class="form-group">
-    <label>{{ form.question3.label }}</label><br>
-    {{ form.question3 }}
+    {{ form.days.label }}</label><br>
+    {{ form.days }}
   </div>
   <div>
     {{ form.submit() }}

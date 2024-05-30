@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Question 2{% endblock %}
+{% block content %}
+<h1 align="center">Question 2: {{ days }}</h1>
+<form method="POST" action="{{ url_for('views.question2') }}">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    {{ form.submit() }}
+  </div>
+</form>
+{% endblock %}
