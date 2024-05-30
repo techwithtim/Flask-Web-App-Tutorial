@@ -13,17 +13,19 @@ questions_data = {
         'choices': [('1', 'Yes'), ('2', 'No')],
         'next': {
             '1': '1.1',  # Follow-up questions for answer '1'
-            '2': '1.2'   # Follow-up questions for answer '2'
+            '2': 'end'   # Redirect to workout split for answer '2'
         }
     },
     '1.1': {
         'text': 'Select all muscle groups you DO NOT want to exercise',
-        'choices': [('A', 'Chest'), ('B', 'Back'), ('C', 'Arms'), ('A', 'Shoulders'), ('B', 'Legs')],
+        'choices': [('A', 'Chest'), ('B', 'Back'), ('C', 'Arms'), ('D', 'Shoulders'), ('E', 'Legs')],
         'multi': True,
         'next': {
-            'A': '1.1.1',
-            'B': '1.1.2',
-            'C': '1.1.3'
+            'A': 'end',
+            'B': 'end',
+            'C': 'end',
+            'D': 'end',
+            'E': 'end'
         }
     },
     '1.1.1': {
@@ -42,6 +44,7 @@ def questionnaire():
         session['days'] = days
         session['current_question'] = '1'  # Start with question id '1'
         session['history'] = []  # Initialize history
+        session['responses'] = {}  # Initialize responses
         return redirect(url_for('views.dynamic_question'))
     return render_template('questionnaire.html', form=form)
 
@@ -62,12 +65,15 @@ def dynamic_question():
         if 'next' in request.form:
             if form.validate():
                 answer = form.answer.data
+                session['responses'][current_question_id] = answer
                 if isinstance(answer, list):
                     # Handle multi-select answers
-                    next_question_id = question['next'].get(answer[0])  # Choose appropriate logic for multi-select
+                    next_question_id = question['next'].get(answer[0], None)  # Choose appropriate logic for multi-select
                 else:
-                    next_question_id = question['next'].get(answer)
-                if next_question_id:
+                    next_question_id = question['next'].get(answer, None)
+                if next_question_id == 'end':
+                    return redirect(url_for('views.split'))  # Redirect to workout split tab at the end of the branch
+                elif next_question_id:
                     session['history'].append(current_question_id)
                     session['current_question'] = next_question_id
                     return redirect(url_for('views.dynamic_question'))
@@ -89,7 +95,10 @@ def home():
 @views.route('/split', methods=['GET'])
 @login_required
 def split():
-    return render_template("split.html", user=current_user)
+    # Use session['responses'] to customize the workout split
+    responses = session.get('responses', {})
+    # Process responses to customize the workout split
+    return render_template("split.html", user=current_user, responses=responses)
 
 @views.route('/tracker', methods=['GET'])
 @login_required

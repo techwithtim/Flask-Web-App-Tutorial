@@ -1,35 +1,47 @@
 {% extends "base.html" %}
 {% block title %}Workout Split{% endblock %}
 {% block content %}
-<div class="container">
-  <h1>Workout Split</h1>
-  <div class="form-group">
-    <label for="monday">Monday</label>
-    <p id="monday">Workout 1, Workout 2, etc.</p>
-  </div>
-  <div class="form-group">
-    <label for="tuesday">Tuesday</label>
-    <p id="tuesday">Workout 1, Workout 2, etc.</p>
-  </div>
-  <div class="form-group">
-    <label for="wednesday">Wednesday</label>
-    <p id="wednesday">Workout 1, Workout 2, etc.</p>
-  </div>
-  <div class="form-group">
-    <label for="thursday">Thursday</label>
-    <p id="thursday">Workout 1, Workout 2, etc.</p>
-  </div>
-  <div class="form-group">
-    <label for="friday">Friday</label>
-    <p id="friday">Workout 1, Workout 2, etc.</p>
-  </div>
-  <div class="form-group">
-    <label for="saturday">Saturday</label>
-    <p id="saturday">Workout 1, Workout 2, etc.</p>
-  </div>
-  <div class="form-group">
-    <label for="sunday">Sunday</label>
-    <p id="sunday">Workout 1, Workout 2, etc.</p>
-  </div>
-</div>
+<h1 align="center">Your Customized Workout Split</h1>
+
+<p>Based on your preferences, here is your workout plan:</p>
+
+<ul>
+  {% for key, answer in responses.items() %}
+    <li>Question {{ key }}: {{ answer }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Workout Plan:</h2>
+{% if '1.1' in responses %}
+  <p>You have selected to not work on the following muscle groups:</p>
+  <ul>
+    {% if 'A' in responses['1.1'] %}
+      <li>Chest</li>
+    {% endif %}
+    {% if 'B' in responses['1.1'] %}
+      <li>Back</li>
+    {% endif %}
+    {% if 'C' in responses['1.1'] %}
+      <li>Arms</li>
+    {% endif %}
+    {% if 'D' in responses['1.1'] %}
+      <li>Shoulders</li>
+    {% endif %}
+    {% if 'E' in responses['1.1'] %}
+      <li>Legs</li>
+    {% endif %}
+  </ul>
+{% else %}
+  <p>Full Body Workout</p>
+{% endif %}
+
+<!-- Add more customized workout plan logic here based on other responses -->
+<!-- Example:
+{% if 'some_other_question' in responses %}
+  {% if responses['some_other_question'] == 'some_answer' %}
+    <p>Specific workout recommendation based on some_answer.</p>
+  {% endif %}
+{% endif %}
+-->
+
 {% endblock %}
