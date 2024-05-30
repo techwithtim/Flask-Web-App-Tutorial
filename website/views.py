@@ -33,3 +33,8 @@ def questionnaire():
 @login_required
 def split():
     return render_template("split.html", user=current_user)
+
+@views.route('/tracker', methods=['GET'])
+@login_required
+def tracker():
+    return render_template("tracker.html", user=current_user)
