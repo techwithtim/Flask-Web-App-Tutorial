@@ -9,39 +9,21 @@ views = Blueprint('views', __name__)
 # Sample nested questions data
 questions_data = {
     '1': {
-        'text': 'Question 2: How many times a week do you want to do cardio?',
-        'choices': [('1', '1'), ('2', '2'), ('3', '3')],
+        'text': 'Are there any muscle groups you DO NOT want to exercise?',
+        'choices': [('1', 'Yes'), ('2', 'No')],
         'next': {
             '1': '1.1',  # Follow-up questions for answer '1'
-            '2': '1.2',  # Follow-up questions for answer '2'
-            '3': '1.3'   # Follow-up questions for answer '3'
+            '2': '1.2'   # Follow-up questions for answer '2'
         }
     },
     '1.1': {
-        'text': 'Follow-up Question 1.1: [Placeholder]',
-        'choices': [('A', 'A'), ('B', 'B'), ('C', 'C')],
+        'text': 'Select all muscle groups you DO NOT want to exercise',
+        'choices': [('A', 'Chest'), ('B', 'Back'), ('C', 'Arms'), ('A', 'Shoulders'), ('B', 'Legs')],
+        'multi': True,
         'next': {
             'A': '1.1.1',
             'B': '1.1.2',
             'C': '1.1.3'
-        }
-    },
-    '1.2': {
-        'text': 'Follow-up Question 1.2: [Placeholder]',
-        'choices': [('A', 'A'), ('B', 'B'), ('C', 'C')],
-        'next': {
-            'A': '1.2.1',
-            'B': '1.2.2',
-            'C': '1.2.3'
-        }
-    },
-    '1.3': {
-        'text': 'Follow-up Question 1.3: [Placeholder]',
-        'choices': [('A', 'A'), ('B', 'B'), ('C', 'C')],
-        'next': {
-            'A': '1.3.1',
-            'B': '1.3.2',
-            'C': '1.3.3'
         }
     },
     '1.1.1': {
@@ -49,47 +31,7 @@ questions_data = {
         'choices': [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
         'next': {}
     },
-    '1.1.2': {
-        'text': 'Follow-up Question 1.1.2: [Placeholder]',
-        'choices': [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
-        'next': {}
-    },
-    '1.1.3': {
-        'text': 'Follow-up Question 1.1.3: [Placeholder]',
-        'choices': [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
-        'next': {}
-    },
-    '1.2.1': {
-        'text': 'Follow-up Question 1.2.1: [Placeholder]',
-        'choices': [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
-        'next': {}
-    },
-    '1.2.2': {
-        'text': 'Follow-up Question 1.2.2: [Placeholder]',
-        'choices': [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
-        'next': {}
-    },
-    '1.2.3': {
-        'text': 'Follow-up Question 1.2.3: [Placeholder]',
-        'choices': [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
-        'next': {}
-    },
-    '1.3.1': {
-        'text': 'Follow-up Question 1.3.1: [Placeholder]',
-        'choices': [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
-        'next': {}
-    },
-    '1.3.2': {
-        'text': 'Follow-up Question 1.3.2: [Placeholder]',
-        'choices': [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
-        'next': {}
-    },
-    '1.3.3': {
-        'text': 'Follow-up Question 1.3.3: [Placeholder]',
-        'choices': [('X', 'X'), ('Y', 'Y'), ('Z', 'Z')],
-        'next': {}
-    }
-    # Add more questions as needed
+    # ... other questions ...
 }
 
 @views.route('/questionnaire', methods=['GET', 'POST'])
@@ -120,7 +62,11 @@ def dynamic_question():
         if 'next' in request.form:
             if form.validate():
                 answer = form.answer.data
-                next_question_id = question['next'].get(answer)
+                if isinstance(answer, list):
+                    # Handle multi-select answers
+                    next_question_id = question['next'].get(answer[0])  # Choose appropriate logic for multi-select
+                else:
+                    next_question_id = question['next'].get(answer)
                 if next_question_id:
                     session['history'].append(current_question_id)
                     session['current_question'] = next_question_id
@@ -132,8 +78,6 @@ def dynamic_question():
                 previous_question_id = session['history'].pop()
                 session['current_question'] = previous_question_id
                 return redirect(url_for('views.dynamic_question'))
-            else:
-                return redirect(url_for('views.questionnaire'))
     
     return render_template('dynamic_question.html', question=question, form=form)
 

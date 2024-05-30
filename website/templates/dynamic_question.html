@@ -5,8 +5,13 @@
 <form method="POST" action="{{ url_for('views.dynamic_question') }}">
   {{ form.hidden_tag() }}
   <div class="form-group">
-    {{ form.answer.label }}</label><br>
-    {{ form.answer }}
+    {{ form.answer.label }}<br>
+    {% for subfield in form.answer %}
+      <div class="form-check">
+        {{ subfield() }}
+        {{ subfield.label }}
+      </div>
+    {% endfor %}
   </div>
   <div>
     <button type="submit" name="next" class="btn btn-primary">Next</button>
