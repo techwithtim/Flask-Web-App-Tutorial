@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Workout Split
+{% endblock %}
+
+{% block content %}
+    <div id="container">
+        <h2>Weight Tracker</h2>
+        <label for="weightInput">Enter your weight:</label>
+        <input type="number" id="weightInput" step="0.1" min="0" placeholder="Enter your weight in lbs">
+        <button onclick="addWeight()">Add Weight</button>
+        <div>
+            <canvas id="weightChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize an empty array to store weight data
+        let weights = [];
+
+        // Function to add weight data
+        function addWeight() {
+            const weightInput = document.getElementById('weightInput');
+            const weight = parseFloat(weightInput.value);
+            if (!isNaN(weight)) {
+                weights.push(weight);
+                weightInput.value = ''; // Clear input field
+                updateChart();
+            } else {
+                alert('Please enter a valid weight.');
+            }
+        }
+
+        // Function to update the chart
+        function updateChart() {
+            const ctx = document.getElementById('weightChart').getContext('2d');
+            const labels = Array.from({ length: weights.length }, (_, i) => `Day ${i + 1}`);
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Weight (kg)',
+                    data: weights,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            };
+            const options = {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            };
+            const weightChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: options
+            });
+        }
+    </script>
+{% endblock %}
