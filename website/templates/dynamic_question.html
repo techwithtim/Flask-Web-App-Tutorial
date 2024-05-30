@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Dynamic Question{% endblock %}
+{% block content %}
+<h1 align="center">{{ question.text }}</h1>
+<form method="POST" action="{{ url_for('views.dynamic_question') }}">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    {{ form.answer.label }}</label><br>
+    {{ form.answer }}
+  </div>
+  <div>
+    <button type="submit" name="next" class="btn btn-primary">Next</button>
+    <button type="submit" name="back" class="btn btn-secondary">Back</button>
+  </div>
+</form>
+{% endblock %}
