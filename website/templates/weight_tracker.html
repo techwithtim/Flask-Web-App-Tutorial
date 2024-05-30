@@ -9,8 +9,9 @@
         <h2>Weight Tracker</h2>
         <label for="weightInput">Enter your weight:</label>
         <input type="number" id="weightInput" step="0.1" min="0" placeholder="Enter your weight in lbs">
-        <button onclick="updateWeight()">Update Weight</button>
-        <button onclick="addOrUpdateWeight()">Add/Update Weight</button>
+        <button onclick="addWeight()">Add Weight</button>
+        <select id="daySelect"></select>
+        <input type="number" id="newWeightInput" step="0.1" min="0" placeholder="Enter new weight">
         <button onclick="undoWeight()">Undo</button>
         <div>
             <canvas id="weightChart"></canvas>
@@ -24,61 +25,53 @@
     <script>
         // Initialize an empty array to store weight data
         let weights = [];
-        
-        // Initialize the chart
-        const ctx = document.getElementById('weightChart').getContext('2d');
         let weightChart;
 
-        // Function to add or update weight data
-        function addOrUpdateWeight() {
+        // Function to add weight data
+        function addWeight() {
             const weightInput = document.getElementById('weightInput');
             const weight = parseFloat(weightInput.value);
             if (!isNaN(weight)) {
                 const today = new Date().toLocaleDateString();
-                let weightUpdated = false;
-                weights.forEach(entry => {
-                    if (entry.date === today) {
-                        entry.weight = weight;
-                        weightUpdated = true;
-                    }
-                });
-                if (!weightUpdated) {
-                    weights.push({ weight: weight, date: today });
-                }
+                weights.push({ weight: weight, date: today });
                 weightInput.value = ''; // Clear input field
                 updateChart();
                 updateWeightLog();
+                updateDaySelect();
             } else {
                 alert('Please enter a valid weight.');
             }
         }
 
-        // Function to undo the last weight entry
+        // Function to update the day selection dropdown
+        function updateDaySelect() {
+            const daySelect = document.getElementById('daySelect');
+            daySelect.innerHTML = '';
+            for (let i = 0; i < weights.length; i++) {
+                const option = document.createElement('option');
+                option.text = `Day ${i + 1}`;
+                option.value = i;
+                daySelect.add(option);
+            }
+        }
+
+        // Function to undo weight entry
         function undoWeight() {
-            if (weights.length > 0) {
-                weights.pop();
-                updateChart();
-                updateWeightLog();
-            }
-        }
-
-        // Function to update the weight when input field changes
-        function updateWeight() {
-            const weightInput = document.getElementById('weightInput');
-            const weight = parseFloat(weightInput.value);
-            if (!isNaN(weight)) {
-                // Update the weight log without adding a new entry
-                updateWeightLog();
-                // Update the chart with the updated weight
-                const today = new Date().toLocaleDateString();
-                weights.forEach(entry => {
-                    if (entry.date === today) {
-                        entry.weight = weight;
-                    }
-                });
-                updateChart();
+            const daySelect = document.getElementById('daySelect');
+            const selectedIndex = daySelect.selectedIndex;
+            if (selectedIndex !== -1) {
+                const index = parseInt(daySelect.value);
+                const newWeightInput = document.getElementById('newWeightInput');
+                const newWeight = parseFloat(newWeightInput.value);
+                if (!isNaN(newWeight)) {
+                    weights[index].weight = newWeight;
+                    updateChart();
+                    updateWeightLog();
+                } else {
+                    alert('Please enter a valid weight.');
+                }
             } else {
-                alert('Please enter a valid weight.');
+                alert('Please select a day to undo.');
             }
         }
 
@@ -93,6 +86,7 @@
 
         // Function to update the chart
         function updateChart() {
+            const ctx = document.getElementById('weightChart').getContext('2d');
             const labels = Array.from({ length: weights.length }, (_, i) => `Day ${i + 1}`);
             const data = {
                 labels: labels,
@@ -113,18 +107,14 @@
                     }]
                 }
             };
-            // If chart exists, update it; otherwise, create new chart
             if (weightChart) {
-                weightChart.data = data;
-                weightChart.options = options;
-                weightChart.update();
-            } else {
-                weightChart = new Chart(ctx, {
-                    type: 'line',
-                    data: data,
-                    options: options
-                });
+                weightChart.destroy();
             }
+            weightChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: options
+            });
         }
     </script>
 {% endblock %}
