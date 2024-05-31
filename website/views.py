@@ -28,26 +28,14 @@ questions_data = {
         }
     },
     '2': {
-        'text': 'Are there any muscle groups you DO NOT want to exercise?',
-        'choices': [('1', 'Yes'), ('2', 'No')],
+        'text': 'How many days a week do you want to workout?',
+        'choices': [('1', '1 day'), ('2', '2 days'), ('3', '3 days'), ('4', '4 days'), ('5', '5 days'), ('6', '6 days'), ('7', '7 days')],
         'next': {
             '1': '2.1',
             '2': 'end_condition3'
         }
     },
     '2.1': {
-        'text': 'Select all muscle groups you DO NOT want to exercise',
-        'choices': [('A', 'Chest'), ('B', 'Back'), ('C', 'Arms'), ('D', 'Shoulders'), ('E', 'Legs')],
-        'multi': True,
-        'next': {
-            'A': 'end_condition3',
-            'B': 'end_condition3',
-            'C': 'end_condition3',
-            'D': 'end_condition3',
-            'E': 'end_condition3'
-        }
-    },
-    '2.2': {
         'text': 'Do you want to workout on back to back days?',
         'choices': [('1', 'Yes'), ('2', 'No')],
         'next': {
@@ -58,8 +46,8 @@ questions_data = {
 }
 
 conditions_messages = {
-    'condition1': 'Full Body Workout',
-    'condition2': 'Customized Split',
+    'condition1': 'Message for condition 1',
+    'condition2': 'Message for condition 2',
     'condition3': 'Message for condition 3'
 }
 
@@ -99,11 +87,18 @@ def dynamic_question():
                 else:
                     answer = [answer]
                 session['responses'][current_question_id] = answer
-                next_question_id = question['next'].get(answer[0], None)
-                if next_question_id and next_question_id.startswith('end_condition'):
-                    session['condition'] = next_question_id.replace('end_', '')
-                    return redirect(url_for('views.split'))
-                elif next_question_id:
+                
+                # Determine the next question or end condition based on all selected answers
+                next_question_id = None
+                for ans in answer:
+                    next_id = question['next'].get(ans)
+                    if next_id and next_id.startswith('end_condition'):
+                        session['condition'] = next_id.replace('end_', '')
+                        return redirect(url_for('views.split'))
+                    elif next_id:
+                        next_question_id = next_id
+
+                if next_question_id:
                     session['history'].append(current_question_id)
                     session['current_question'] = next_question_id
                     return redirect(url_for('views.dynamic_question'))
