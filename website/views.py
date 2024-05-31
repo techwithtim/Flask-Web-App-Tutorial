@@ -58,8 +58,8 @@ questions_data = {
 }
 
 conditions_messages = {
-    'condition1': 'Message for condition 1',
-    'condition2': 'Message for condition 2',
+    'condition1': 'Full Body Workout',
+    'condition2': 'Customized Split',
     'condition3': 'Message for condition 3'
 }
 
@@ -94,7 +94,9 @@ def dynamic_question():
         if 'next' in request.form:
             if form.validate():
                 answer = request.form.get('answer')
-                if not isinstance(answer, list):
+                if question.get('multi'):
+                    answer = answer.split(',')
+                else:
                     answer = [answer]
                 session['responses'][current_question_id] = answer
                 next_question_id = question['next'].get(answer[0], None)
@@ -111,9 +113,9 @@ def dynamic_question():
             if session['history']:
                 previous_question_id = session['history'].pop()
                 session['current_question'] = previous_question_id
-                if previous_question_id == '1':  # Assuming the first question is '1'
-                    return redirect(url_for('views.questionnaire'))
                 return redirect(url_for('views.dynamic_question'))
+            else:
+                return redirect(url_for('views.questionnaire'))
     
     return render_template('dynamic_question.html', question=question, form=form)
 

@@ -6,9 +6,9 @@
   {{ form.hidden_tag() }}
   <div class="form-group">
     {% for subfield in form.answer %}
-      <button type="button" class="btn questionnaire-btn" onclick="selectOption('{{ subfield.id }}', '{{ subfield.data }}')">{{ subfield.label }}</button>
+      <button type="button" class="btn questionnaire-btn" onclick="selectOption('{{ subfield.id }}', '{{ subfield.data }}')" data-multi="{{ 'true' if question.get('multi') else 'false' }}">{{ subfield.label }}</button>
     {% endfor %}
-    <input type="hidden" id="selected_option" name="answer">
+    <input type="hidden" id="selected_option" name="answer" value="">
   </div>
   <div>
     <button type="submit" name="next" class="btn">Next</button>
@@ -17,16 +17,34 @@
 </form>
 
 <script>
+    let selectedValues = [];
+
     function selectOption(id, value) {
-        var buttons = document.querySelectorAll('.questionnaire-btn');
-        buttons.forEach(button => {
-            button.style.backgroundColor = 'white'; // White color for buttons
-            button.style.color = 'black'; // Black text color for buttons
-        });
-        var selectedButton = document.querySelector(`button[onclick="selectOption('${id}', '${value}')"]`);
-        selectedButton.style.backgroundColor = '#a317be'; // Purple color for selected button
-        selectedButton.style.color = 'white'; // White text color for selected button
-        document.getElementById('selected_option').value = value; // Set the selected option
+        const button = document.querySelector(`button[onclick="selectOption('${id}', '${value}')"]`);
+        const isMulti = button.getAttribute('data-multi') === 'true';
+
+        if (isMulti) {
+            if (selectedValues.includes(value)) {
+                selectedValues = selectedValues.filter(v => v !== value);
+                button.style.backgroundColor = 'white';
+                button.style.color = 'black';
+            } else {
+                selectedValues.push(value);
+                button.style.backgroundColor = '#a317be';
+                button.style.color = 'white';
+            }
+        } else {
+            selectedValues = [value];
+            const buttons = document.querySelectorAll('.questionnaire-btn');
+            buttons.forEach(btn => {
+                btn.style.backgroundColor = 'white';
+                btn.style.color = 'black';
+            });
+            button.style.backgroundColor = '#a317be';
+            button.style.color = 'white';
+        }
+
+        document.getElementById('selected_option').value = selectedValues.join(',');
     }
 </script>
 {% endblock %}
