@@ -10,11 +10,11 @@
         <form method="POST" action="{{ url_for('views.weight_tracker') }}">
             <label for="weightInput">Enter your weight:</label>
             <input type="number" id="weightInput" name="weight" step="0.1" min="0" placeholder="Enter your weight in lbs" required>
-            <button type="submit">Add Weight</button>
+            <button type="submit" class="btn">Add Weight</button>
         </form>
-        <select id="daySelect"></select>
+        <select id="daySelect" class="btn"></select>
         <input type="number" id="newWeightInput" step="0.1" min="0" placeholder="Enter new weight">
-        <button onclick="undoWeight()">Change</button>
+        <button onclick="undoWeight()" class="btn">Change</button>
         <div>
             <canvas id="weightChart"></canvas>
         </div>
@@ -104,16 +104,26 @@
                 datasets: [{
                     label: 'Weight (lbs)',
                     data: weights.map(entry => entry.weight),
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
+                    backgroundColor: 'rgba(125, 13, 195, 0.2)',  // Purple color
+                    borderColor: 'rgba(125, 13, 195, 1)',  // Purple color
+                    borderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
                 }]
             };
             const options = {
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            fontSize: 14,
+                            fontColor: '#7D0DC3'  // Purple color
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontSize: 14,
+                            fontColor: '#7D0DC3'  // Purple color
                         }
                     }]
                 }
