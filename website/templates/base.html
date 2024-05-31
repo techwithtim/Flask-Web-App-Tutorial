@@ -16,7 +16,8 @@
         <ul class="nav-links">
             {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('views.home') }}">Home</a></li>
-                <li><a href="{{ url_for('views.questionnaire') }}">Questionnaire</a></li>
+                <!-- Remove this line -->
+                <!-- <li><a href="{{ url_for('views.questionnaire') }}">Questionnaire</a></li> -->
                 <li><a href="{{ url_for('views.split') }}">Workout Split</a></li>
                 <li><a href="{{ url_for('views.tracker') }}">Tracker</a></li>
                 <li><a href="{{ url_for('views.weight_tracker') }}">Weight Tracker</a></li>
@@ -45,18 +46,4 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <script>
-        $(document).ready(function() {
-            if ($('.alert').length) {
-                $('#notification').addClass('show');
-                setTimeout(function() {
-                    $('#notification').removeClass('show');
-                }, 5000); // Hide after 5 seconds
-            }
-        });
-    </script>
-</body>
-</html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7h

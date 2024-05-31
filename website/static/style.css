@@ -90,19 +90,39 @@ body {
     margin: 20px auto;
     padding: 20px;
 }
-
+/* style.css */
+/* Button styles */
+/* style.css */
+/* Button styles */
+/* style.css */
 /* Button styles */
 .btn {
-    background-color: #a317be; /* Purple color */
-    color: #fff;
-    border: none;
+    background-color: white; /* White color by default */
+    color: black; /* Black text color by default */
+    border: 1px solid #a317be; /* Border color to distinguish buttons */
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: block; /* Make buttons block elements for vertical alignment */
+    width: auto; /* Auto width to fit content */
+    text-align: left; /* Align text to the left */
+    margin-bottom: 10px; /* Space between buttons */
 }
 
 .btn:hover {
-    background-color: #a317be; /* Darker purple */
+    background-color: #a317be; /* Purple color on hover */
+    color: white; /* White text color on hover */
+}
+
+.questionnaire-btn {
+    margin: 5px 0; /* Space between buttons */
+    background-color: white; /* White by default */
+    color: black; /* Black text by default */
+}
+
+.questionnaire-btn:hover {
+    background-color: #a317be; /* Purple color on hover */
+    color: white; /* White text on hover */
 }

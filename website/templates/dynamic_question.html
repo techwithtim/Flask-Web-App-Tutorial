@@ -5,17 +5,28 @@
 <form method="POST" action="{{ url_for('views.dynamic_question') }}">
   {{ form.hidden_tag() }}
   <div class="form-group">
-    {{ form.answer.label }}<br>
     {% for subfield in form.answer %}
-      <div class="form-check">
-        {{ subfield() }}
-        {{ subfield.label }}
-      </div>
+      <button type="button" class="btn questionnaire-btn" onclick="selectOption('{{ subfield.id }}', '{{ subfield.data }}')">{{ subfield.label }}</button>
     {% endfor %}
+    <input type="hidden" id="selected_option" name="answer">
   </div>
   <div>
-    <button type="submit" name="next" class="btn btn-primary">Next</button>
+    <button type="submit" name="next" class="btn">Next</button>
     <button type="submit" name="back" class="btn btn-secondary">Back</button>
   </div>
 </form>
+
+<script>
+    function selectOption(id, value) {
+        var buttons = document.querySelectorAll('.questionnaire-btn');
+        buttons.forEach(button => {
+            button.style.backgroundColor = 'white'; // White color for buttons
+            button.style.color = 'black'; // Black text color for buttons
+        });
+        var selectedButton = document.querySelector(`button[onclick="selectOption('${id}', '${value}')"]`);
+        selectedButton.style.backgroundColor = '#a317be'; // Purple color for selected button
+        selectedButton.style.color = 'white'; // White text color for selected button
+        document.getElementById('selected_option').value = value; // Set the selected option
+    }
+</script>
 {% endblock %}

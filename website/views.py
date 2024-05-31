@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_login import login_required, current_user
 from .forms import InitialQuestionForm, create_dynamic_form
 from .models import User, Weight
@@ -67,13 +67,14 @@ conditions_messages = {
 def questionnaire():
     form = InitialQuestionForm()
     if form.validate_on_submit():
-        days = form.days.data
-        session['days'] = days
-        session['current_question'] = '1'
-        session['history'] = []
-        session['responses'] = {}
-        session['condition'] = ''
-        return redirect(url_for('views.dynamic_question'))
+        selected_option = form.days.data
+        if selected_option:
+            flash(f'You selected: {selected_option}')
+            session['days'] = selected_option
+            session['current_question'] = '1'  # Assuming the first question is '1'
+            session['history'] = []
+            session['responses'] = {}
+            return redirect(url_for('views.dynamic_question'))
     return render_template('questionnaire.html', form=form)
 
 @views.route('/dynamic_question', methods=['GET', 'POST'])
@@ -92,7 +93,7 @@ def dynamic_question():
     if request.method == 'POST':
         if 'next' in request.form:
             if form.validate():
-                answer = form.answer.data
+                answer = request.form.get('answer')
                 if not isinstance(answer, list):
                     answer = [answer]
                 session['responses'][current_question_id] = answer
@@ -110,6 +111,8 @@ def dynamic_question():
             if session['history']:
                 previous_question_id = session['history'].pop()
                 session['current_question'] = previous_question_id
+                if previous_question_id == '1':  # Assuming the first question is '1'
+                    return redirect(url_for('views.questionnaire'))
                 return redirect(url_for('views.dynamic_question'))
     
     return render_template('dynamic_question.html', question=question, form=form)
