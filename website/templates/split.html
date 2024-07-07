@@ -3,16 +3,20 @@
 {% block content %}
 <h1 align="center">Your Customized Workout Split</h1>
 
-<p>Based on your preferences, here is your workout plan:</p>
+<div class="workout-section">
+    <h2>Today's Workout</h2>
+    <p>Chest: bench press 3 x 10, lateral raise 4 x 15, tricep pushdowns 3 x 12, dips 3 x 15.</p>
+</div>
 
-<h2>Workout Plan:</h2>
-<p>Days per week: {{ days }}</p>
-<ul>
-  {% for group in included_groups %}
-    <li>{{ group }}</li>
-  {% endfor %}
-</ul>
+<div class="workout-section">
+    <h2>Rest of the Week's Workouts</h2>
+    <!-- Add content or logic for the rest of the week's workouts here -->
+    <p>Details for the rest of the week...</p>
+</div>
 
-<p>{{ message }}</p>
-
+<div class="workout-section">
+    <h2>Past Workouts</h2>
+    <!-- Add content or logic for past workouts here -->
+    <p>Details of past workouts...</p>
+</div>
 {% endblock %}

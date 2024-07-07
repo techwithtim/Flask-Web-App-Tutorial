@@ -1,34 +1,94 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Dashboard{% endblock %}
 {% block content %}
-<h1 align="center">Welcome, {{ user.first_name }}!</h1>
-
-<div style="border: 2px solid #ccc; padding: 20px; max-width: 600px; margin: auto;">
-  <p style="font-weight: bold; text-align: center;">Welcome to PhySeek: Your Personalized Fitness Destination!</p>
-
-  <p style="text-align: justify;">
-    At PhySeek, we believe that achieving your fitness goals should be personalized, convenient, and effective. That's why we've created a platform where you can embark on your fitness journey with confidence.
-  </p>
-
-  <p style="text-align: justify;">
-    Whether you're looking to build muscle, lose weight, improve endurance, or simply enhance your overall health, our custom-tailored workouts are designed to fit your unique needs and goals. Say goodbye to generic routines and hello to workouts that evolve with you.
-  </p>
-
-  <p style="text-align: justify;">
-    Track your progress effortlessly with our intuitive tools and charts, allowing you to see your achievements in real-time and stay motivated every step of the way.
-  </p>
-
-  <p style="text-align: justify;">
-    Whether you're a seasoned gym-goer or just starting out, PhySeek is here to support you on your path to a healthier, happier you.
-  </p>
-
-  <p style="font-weight: bold; text-align: center;">So, are you ready to unleash your full potential?</p>
-
-  <p style="text-align: justify;">
-    Let's get started on your journey to a fitter, stronger, and more vibrant you. Welcome to PhySeek! 
-  </p>
-  <div style="text-align: center;">
-      <a href="{{ url_for('views.questionnaire') }}" class="btn">Fill out the Questionnaire</a>
-  </div>
+<div class="dashboard-container">
+    <div class="dashboard-item weight-tracker" id="weightTrackerPreview">
+        <h2>Weight Tracker</h2>
+        <canvas id="weightChartPreview"></canvas>
+    </div>
+    <div class="dashboard-item workout-split" id="workoutSplitPreview">
+        <h2>Today's Workout</h2>
+        <p id="todaysWorkoutPreview">Loading today's workout...</p>
+    </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("weightTrackerPreview").onclick = function() {
+            window.location.href = "{{ url_for('views.weight_tracker') }}";
+        };
+        document.getElementById("workoutSplitPreview").onclick = function() {
+            window.location.href = "{{ url_for('views.split') }}";
+        };
+
+        fetchWeightsPreview();
+        fetchTodaysWorkout();
+    });
+
+    function fetchWeightsPreview() {
+        fetch("{{ url_for('views.get_weights') }}")
+            .then(response => response.json())
+            .then(data => {
+                updateWeightChartPreview(data);
+            })
+            .catch(error => {
+                console.error("Error fetching weights data:", error);
+            });
+    }
+
+    function updateWeightChartPreview(weights) {
+        const ctx = document.getElementById('weightChartPreview').getContext('2d');
+        const labels = weights.map(entry => entry.date);
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Weight (lbs)',
+                data: weights.map(entry => entry.weight),
+                backgroundColor: 'rgba(125, 13, 195, 0.2)',  // Purple color
+                borderColor: 'rgba(125, 13, 195, 1)',  // Purple color
+                borderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        };
+        const options = {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#a317be'  // Purple color
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#a317be'  // Purple color
+                    }
+                }
+            }
+        };
+
+        if (window.weightChartPreview) {
+            if (typeof window.weightChartPreview.destroy === 'function') {
+                window.weightChartPreview.destroy();
+            }
+        }
+
+        window.weightChartPreview = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    }
+
+    function fetchTodaysWorkout() {
+        fetch("{{ url_for('views.get_todays_workout') }}")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('todaysWorkoutPreview').innerText = data.todays_workout;
+            })
+            .catch(error => {
+                console.error("Error fetching today's workout data:", error);
+            });
+    }
+</script>
 {% endblock %}

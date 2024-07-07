@@ -15,12 +15,10 @@
         </a>
         <ul class="nav-links">
             {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('views.home') }}">Home</a></li>
-                <!-- Remove this line -->
-                <!-- <li><a href="{{ url_for('views.questionnaire') }}">Questionnaire</a></li> -->
+                <li><a href="{{ url_for('views.home') }}">Dashboard</a></li>
                 <li><a href="{{ url_for('views.split') }}">Workout Split</a></li>
-                <li><a href="{{ url_for('views.tracker') }}">Tracker</a></li>
                 <li><a href="{{ url_for('views.weight_tracker') }}">Weight Tracker</a></li>
+                <li><a href="{{ url_for('views.about') }}">About</a></li> <!-- New About tab -->
                 <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
             {% else %}
                 <li><a href="{{ url_for('auth.login') }}">Login</a></li>
@@ -45,5 +43,8 @@
         {% block content %}{% endblock %}
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7h
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

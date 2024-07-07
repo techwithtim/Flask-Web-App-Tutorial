@@ -6,6 +6,15 @@ from . import db
 
 views = Blueprint('views', __name__)
 
+@views.route('/')
+@login_required
+def home():
+    return render_template('home.html', user=current_user)
+
+@views.route('/about')
+def about():
+    return render_template('about.html')
+
 questions_data = {
     '1': {
         'text': 'Are there any muscle groups you DO NOT want to exercise?',
@@ -114,11 +123,6 @@ def dynamic_question():
     
     return render_template('dynamic_question.html', question=question, form=form)
 
-@views.route('/', methods=['GET'])
-@login_required
-def home():
-    return render_template("home.html", user=current_user)
-
 @views.route('/split', methods=['GET'])
 @login_required
 def split():
@@ -138,11 +142,6 @@ def split():
     
     return render_template("split.html", user=current_user, included_groups=included_groups, days=days, message=message)
 
-@views.route('/tracker', methods=['GET'])
-@login_required
-def tracker():
-    return render_template("tracker.html", user=current_user)
-
 @views.route('/weight_tracker', methods=['GET', 'POST'])
 @login_required
 def weight_tracker():
@@ -161,3 +160,11 @@ def get_weights():
     weights = Weight.query.filter_by(user_id=current_user.id).order_by(Weight.date).all()
     weights_data = [{"date": w.date.strftime("%Y-%m-%d"), "weight": w.weight} for w in weights]
     return jsonify(weights_data)
+
+import random
+
+@views.route('/get_todays_workout')
+@login_required
+def get_todays_workout():
+    todays_workout = "Chest: bench press 3 x 10, lateral raise 4 x 15, tricep pushdowns 3 x 12, dips 3 x 15."
+    return jsonify({"todays_workout": todays_workout})
