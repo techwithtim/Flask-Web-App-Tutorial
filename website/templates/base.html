@@ -7,6 +7,56 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        /* Style for the footer */
+        .footer {
+            background-color: #7d0dc3;
+            color: #fff;
+            padding: 70 px;
+            text-align: center;
+            font-size: 14px;
+            width: 100%;
+            position: absolute;
+            bottom: 1;
+        }
+
+        /* Ensure content is not hidden behind the fixed footer */
+        body {
+            margin-bottom: 60px; /* Adjust based on footer height */
+        }
+
+        /* Styling for other elements (adjust as needed) */
+        .navbar {
+            background-color: #fff;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .nav-links li {
+            display: inline;
+            margin: 0 10px;
+        }
+
+        .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-links li a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            padding: 20px;
+            min-height: calc(100vh - 120px); /* Adjust based on header and footer height */
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -18,8 +68,8 @@
                 <li><a href="{{ url_for('views.home') }}">Home</a></li>
                 <li><a href="{{ url_for('views.split') }}">Workout Split</a></li>
                 <li><a href="{{ url_for('views.weight_tracker') }}">Weight Tracker</a></li>
-                <li><a href="{{ url_for('views.about') }}">About</a></li> <!-- New About tab -->
-                <li><a href="{{ url_for('auth.logout') }}">Profile</a></li>
+                <li><a href="{{ url_for('views.about') }}">About</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
             {% else %}
                 <li><a href="{{ url_for('auth.login') }}">Login</a></li>
                 <li><a href="{{ url_for('auth.sign_up') }}">Sign Up</a></li>
@@ -42,6 +92,10 @@
     <div class="container">
         {% block content %}{% endblock %}
     </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Physeek Training. All rights reserved.</p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
