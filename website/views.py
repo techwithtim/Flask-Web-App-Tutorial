@@ -99,3 +99,4 @@ def get_weights():
 def get_todays_workout():
     todays_workout = "Chest: bench press 3 x 10, lateral raise 4 x 15, tricep pushdowns 3 x 12, dips 3 x 15."
     return jsonify({"todays_workout": todays_workout})
+

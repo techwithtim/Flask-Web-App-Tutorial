@@ -1,4 +1,5 @@
 from flask import session
+from graphviz import Digraph
 from .forms import InitialQuestionForm, create_dynamic_form
 
 questions_data = {
@@ -15,11 +16,11 @@ questions_data = {
         'choices': [('A', 'Chest'), ('B', 'Back'), ('C', 'Arms'), ('D', 'Shoulders'), ('E', 'Legs')],
         'multi': True,
         'next': {
-            'A': 'end_condition2',
-            'B': 'end_condition2',
-            'C': 'end_condition2',
-            'D': 'end_condition2',
-            'E': 'end_condition2'
+            'A': '2',
+            'B': '2',
+            'C': '2',
+            'D': '2',
+            'E': '2'
         }
     },
     '2': {
@@ -90,3 +91,23 @@ def get_question_and_form():
     DynamicForm = create_dynamic_form(question)
     form = DynamicForm()
     return question, form
+
+def generate_question_tree(output_path='questionnaire_tree'):
+    dot = Digraph(comment='Questionnaire Tree')
+
+    # Add nodes for each question
+    for question_id, question_info in questions_data.items():
+        dot.node(question_id, question_info['text'])
+
+    # Add edges for each choice
+    for question_id, question_info in questions_data.items():
+        for choice, next_question_id in question_info['next'].items():
+            if next_question_id.startswith('end_condition'):
+                next_question_id = next_question_id.replace('end_', '')
+                dot.node(next_question_id, next_question_id, shape='box')
+            dot.edge(question_id, next_question_id, label=choice)
+
+    dot.render(output_path, format='png', view=False)
+
+if __name__ == '__main__':
+    generate_question_tree()
