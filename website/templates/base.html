@@ -15,11 +15,11 @@
         </a>
         <ul class="nav-links">
             {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('views.home') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('views.home') }}">Home</a></li>
                 <li><a href="{{ url_for('views.split') }}">Workout Split</a></li>
                 <li><a href="{{ url_for('views.weight_tracker') }}">Weight Tracker</a></li>
                 <li><a href="{{ url_for('views.about') }}">About</a></li> <!-- New About tab -->
-                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Profile</a></li>
             {% else %}
                 <li><a href="{{ url_for('auth.login') }}">Login</a></li>
                 <li><a href="{{ url_for('auth.sign_up') }}">Sign Up</a></li>
