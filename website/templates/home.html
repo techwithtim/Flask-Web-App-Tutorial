@@ -1,24 +1,78 @@
 {% extends "base.html" %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
+<style>
+    .dashboard-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        justify-content: center;
+    }
+    .workout-split {
+        width: 50%;
+        height: 50%;
+        margin: 20px 0;
+        text-align: center;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .weight-tracker {
+        width: 80%;
+        margin: 20px 0;
+        text-align: center;
+    }
+    #weightTrackerButton {
+        width: 100%;
+        background-color: #fff;
+        color: #7d0dc3;
+        border: 2px solid #7d0dc3;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #weightTrackerButton:hover {
+        background-color: #f0f0f0;
+    }
+    .canvas-container {
+        position: relative;
+        height: 150px;
+        width: 100%;
+    }
+    #weightTrackerText {
+        margin-top: 10px;
+    }
+</style>
+
 <div class="dashboard-container">
-    <div class="dashboard-item weight-tracker" id="weightTrackerPreview">
-        <h2>Weight Tracker</h2>
-        <canvas id="weightChartPreview"></canvas>
-    </div>
     <div class="dashboard-item workout-split" id="workoutSplitPreview">
         <h2>Today's Workout</h2>
         <p id="todaysWorkoutPreview">Loading today's workout...</p>
     </div>
+    <div class="dashboard-item weight-tracker" id="weightTrackerPreview">
+        <button id="weightTrackerButton">
+            <div class="canvas-container">
+                <canvas id="weightChartPreview"></canvas>
+            </div>
+            <p id="weightTrackerText"></p>
+        </button>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("weightTrackerPreview").onclick = function() {
+        document.getElementById("weightTrackerButton").onclick = function() {
             window.location.href = "{{ url_for('views.weight_tracker') }}";
-        };
-        document.getElementById("workoutSplitPreview").onclick = function() {
-            window.location.href = "{{ url_for('views.split') }}";
         };
 
         fetchWeightsPreview();
@@ -30,6 +84,7 @@
             .then(response => response.json())
             .then(data => {
                 updateWeightChartPreview(data);
+                updateWeightTrackerText(data);
             })
             .catch(error => {
                 console.error("Error fetching weights data:", error);
@@ -78,6 +133,18 @@
             data: data,
             options: options
         });
+    }
+
+    function updateWeightTrackerText(weights) {
+        const weightTrackerText = document.getElementById('weightTrackerText');
+        const entryCount = weights.length;
+        if (entryCount === 0) {
+            weightTrackerText.innerText = "Start tracking your weight today!";
+        } else if (entryCount === 1) {
+            weightTrackerText.innerText = "Track your weight";
+        } else {
+            weightTrackerText.innerText = `Congrats on tracking your weight for ${entryCount} days, keep your streak going!`;
+        }
     }
 
     function fetchTodaysWorkout() {
