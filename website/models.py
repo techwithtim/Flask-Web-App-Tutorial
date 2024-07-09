@@ -1,39 +1,45 @@
-from . import db
 from flask_login import UserMixin
-from sqlalchemy.sql import func
-
-class Note(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(10000))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+from . import db
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
-    weights = db.relationship('Weight', backref='user', lazy=True)
+    has_completed_questionnaire = db.Column(db.Boolean, default=False)
 
-class QuestionnaireResponse(db.Model):
+class Weight(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    question1 = db.Column(db.String(200), nullable=False)
-    question2 = db.Column(db.String(200), nullable=False)
-    question3 = db.Column(db.String(200), nullable=False)
-    user = db.relationship('User', backref=db.backref('responses', lazy=True))
+    weight = db.Column(db.Float, nullable=False)
+    date = db.Column(db.DateTime, default=db.func.current_timestamp())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='weights')
+
+User.weights = db.relationship('Weight', order_by=Weight.date, back_populates='user')
 
 class WeightEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     weight = db.Column(db.Float, nullable=False)
-    date_added = db.Column(db.DateTime(timezone=True), default=func.now())
+    date = db.Column(db.DateTime, default=db.func.current_timestamp())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='weight_entries')
 
-    user = db.relationship('User', backref=db.backref('weight_entries', lazy=True))
-    from . import db
+User.weight_entries = db.relationship('WeightEntry', order_by=WeightEntry.date, back_populates='user')
 
-class Weight(db.Model):
+class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
-    weight = db.Column(db.Float, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    data = db.Column(db.String(10000))
+    date = db.Column(db.DateTime, default=db.func.current_timestamp())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='notes')
+
+User.notes = db.relationship('Note', order_by=Note.date, back_populates='user')
+
+class QuestionnaireResponse(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    question_id = db.Column(db.String(50))
+    response = db.Column(db.String(1000))
+    user = db.relationship('User', back_populates='questionnaire_responses')
+
+User.questionnaire_responses = db.relationship('QuestionnaireResponse', order_by=QuestionnaireResponse.id, back_populates='user')

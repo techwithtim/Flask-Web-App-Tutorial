@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_login import login_required, current_user
 from .forms import InitialQuestionForm, create_dynamic_form
-from .models import User, Weight
+from .models import User, Weight, QuestionnaireResponse
 from . import db
 
 views = Blueprint('views', __name__)
@@ -61,7 +61,11 @@ conditions_messages = {
 }
 
 @views.route('/questionnaire', methods=['GET', 'POST'])
+@login_required
 def questionnaire():
+    if current_user.has_completed_questionnaire:
+        return redirect(url_for('views.home'))
+
     form = InitialQuestionForm()
     if form.validate_on_submit():
         selected_option = form.days.data
@@ -75,7 +79,11 @@ def questionnaire():
     return render_template('questionnaire.html', form=form)
 
 @views.route('/dynamic_question', methods=['GET', 'POST'])
+@login_required
 def dynamic_question():
+    if current_user.has_completed_questionnaire:
+        return redirect(url_for('views.home'))
+
     current_question_id = session.get('current_question')
     if current_question_id is None:
         return redirect(url_for('views.questionnaire'))
@@ -103,7 +111,9 @@ def dynamic_question():
                     next_id = question['next'].get(ans)
                     if next_id and next_id.startswith('end_condition'):
                         session['condition'] = next_id.replace('end_', '')
-                        return redirect(url_for('views.split'))
+                        current_user.has_completed_questionnaire = True
+                        db.session.commit()
+                        return redirect(url_for('views.home'))
                     elif next_id:
                         next_question_id = next_id
 
@@ -160,8 +170,6 @@ def get_weights():
     weights = Weight.query.filter_by(user_id=current_user.id).order_by(Weight.date).all()
     weights_data = [{"date": w.date.strftime("%Y-%m-%d"), "weight": w.weight} for w in weights]
     return jsonify(weights_data)
-
-import random
 
 @views.route('/get_todays_workout')
 @login_required

@@ -2,10 +2,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 # Create SQLAlchemy instance
 db = SQLAlchemy()
 DB_NAME = "database.db"
+migrate = Migrate()
+
 
 def create_app():
     app = Flask(__name__)
@@ -14,6 +17,7 @@ def create_app():
     
     # Initialize SQLAlchemy with the Flask app
     db.init_app(app)
+    migrate.init_app(app, db)
 
     # Import blueprints
     from .views import views
