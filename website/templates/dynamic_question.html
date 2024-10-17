@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% extends "base_questionnaire.html" %}
+{% block title %}Dynamic Question{% endblock %}
+{% block content %}
+<h1 align="center">{{ question.text }}</h1>
+<form method="POST" action="{{ url_for('views.dynamic_question') }}">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    {% for subfield in form.answer %}
+      <button type="button" class="btn questionnaire-btn" onclick="selectOption('{{ subfield.id }}', '{{ subfield.data }}')" data-multi="{{ 'true' if question.get('multi') else 'false' }}">{{ subfield.label }}</button>
+    {% endfor %}
+    <input type="hidden" id="selected_option" name="answer" value="">
+  </div>
+  <div>
+    <button type="submit" name="next" class="btn">Next</button>
+    <button type="submit" name="back" class="btn btn-secondary">Back</button>
+  </div>
+</form>
+
+<script>
+    let selectedValues = [];
+
+    function selectOption(id, value) {
+        const button = document.querySelector(`button[onclick="selectOption('${id}', '${value}')"]`);
+        const isMulti = button.getAttribute('data-multi') === 'true';
+
+        if (isMulti) {
+            if (selectedValues.includes(value)) {
+                selectedValues = selectedValues.filter(v => v !== value);
+                button.style.backgroundColor = 'white';
+                button.style.color = 'black';
+            } else {
+                selectedValues.push(value);
+                button.style.backgroundColor = '#a317be';
+                button.style.color = 'white';
+            }
+        } else {
+            selectedValues = [value];
+            const buttons = document.querySelectorAll('.questionnaire-btn');
+            buttons.forEach(btn => {
+                btn.style.backgroundColor = 'white';
+                btn.style.color = 'black';
+            });
+            button.style.backgroundColor = '#a317be';
+            button.style.color = 'white';
+        }
+
+        document.getElementById('selected_option').value = selectedValues.join(',');
+    }
+</script>
+{% endblock %}

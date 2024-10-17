@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Weight Tracker
+{% endblock %}
+
+{% block content %}
+    <div id="container">
+        <h2>Weight Tracker</h2>
+        <form method="POST" action="{{ url_for('views.weight_tracker') }}">
+            <label for="weightInput">Enter your weight:</label>
+            <input type="number" id="weightInput" name="weight" step="0.1" min="0" placeholder="Enter your weight in lbs" required>
+            <button type="submit" class="btn">Add Weight</button>
+        </form>
+        <select id="daySelect" class="btn"></select>
+        <input type="number" id="newWeightInput" step="0.1" min="0" placeholder="Enter new weight">
+        <button onclick="undoWeight()" class="btn">Change</button>
+        <div>
+            <canvas id="weightChart"></canvas>
+        </div>
+        <div id="weightLog">
+            <!-- Weight log will be displayed here -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let weights = [];
+        let weightChart;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchWeights();
+        });
+
+        function fetchWeights() {
+            fetch("{{ url_for('views.get_weights') }}")
+                .then(response => response.json())
+                .then(data => {
+                    weights = data;
+                    updateChart();
+                    updateWeightLog();
+                    updateDaySelect();
+                });
+        }
+
+        function addWeight() {
+            const weightInput = document.getElementById('weightInput');
+            const weight = parseFloat(weightInput.value);
+            if (!isNaN(weight)) {
+                const today = new Date().toLocaleDateString();
+                weights.push({ weight: weight, date: today });
+                weightInput.value = ''; // Clear input field
+                updateChart();
+                updateWeightLog();
+                updateDaySelect();
+            } else {
+                alert('Please enter a valid weight.');
+            }
+        }
+
+        function updateDaySelect() {
+            const daySelect = document.getElementById('daySelect');
+            daySelect.innerHTML = '';
+            for (let i = 0; i < weights.length; i++) {
+                const option = document.createElement('option');
+                option.text = `Day ${i + 1}`;
+                option.value = i;
+                daySelect.add(option);
+            }
+        }
+
+        function undoWeight() {
+            const daySelect = document.getElementById('daySelect');
+            const selectedIndex = daySelect.selectedIndex;
+            if (selectedIndex !== -1) {
+                const index = parseInt(daySelect.value);
+                const newWeightInput = document.getElementById('newWeightInput');
+                const newWeight = parseFloat(newWeightInput.value);
+                if (!isNaN(newWeight)) {
+                    weights[index].weight = newWeight;
+                    updateChart();
+                    updateWeightLog();
+                } else {
+                    alert('Please enter a valid weight.');
+                }
+            } else {
+                alert('Please select a day to undo.');
+            }
+        }
+
+        function updateWeightLog() {
+            const weightLog = document.getElementById('weightLog');
+            weightLog.innerHTML = '';
+            weights.forEach((entry, index) => {
+                weightLog.innerHTML += `Day ${index + 1} (${entry.date}): ${entry.weight} lbs<br>`;
+            });
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('weightChart').getContext('2d');
+            const labels = weights.map(entry => entry.date);
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Weight (lbs)',
+                    data: weights.map(entry => entry.weight),
+                    backgroundColor: 'rgba(125, 13, 195, 0.2)',  // Purple color
+                    borderColor: 'rgba(125, 13, 195, 1)',  // Purple color
+                    borderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            };
+            const options = {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontSize: 14,
+                            fontColor: '#a317be'  // Purple color
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontSize: 14,
+                            fontColor: '#a317be'  // Purple color
+                        }
+                    }]
+                }
+            };
+            if (weightChart) {
+                weightChart.destroy();
+            }
+            weightChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: options
+            });
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,164 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background: #fff;
+    color: #080808;
+}
+
+/* Navigation bar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px; /* Adjust padding for better spacing */
+    background-color: #fff; /* White background */
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navbar .logo-img {
+    height: 60px; /* Adjust as needed */
+    width: auto; /* Maintain aspect ratio */
+}
+
+.navbar .nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.navbar .nav-links li {
+    margin-left: 30px; /* Adjust for better spacing */
+}
+
+.navbar .nav-links a {
+    text-decoration: none;
+    color: #080808;
+    font-size: 18px;
+    font-weight: bold; /* Make text bolder */
+    position: relative;
+}
+
+.navbar .nav-links a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 3px; /* Make underline bolder */
+    background: #a317be; /* Purple color */
+    transition: width .3s;
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+}
+
+.navbar .nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Notification styles */
+.dropdown-notification {
+    background-color: #f3e5f5; /* Light purple */
+    color: #800080; /* Darker purple for text */
+    border: none;
+    border-radius: 0;
+    padding: 10px 20px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-notification.show {
+    display: block;
+}
+
+/* Container for main content */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+/* style.css */
+/* Button styles */
+/* style.css */
+/* Button styles */
+/* style.css */
+/* Button styles */
+.btn {
+    background-color: white; /* White color by default */
+    color: black; /* Black text color by default */
+    border: 1px solid #a317be; /* Border color to distinguish buttons */
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: block; /* Make buttons block elements for vertical alignment */
+    width: auto; /* Auto width to fit content */
+    text-align: left; /* Align text to the left */
+    margin-bottom: 10px; /* Space between buttons */
+}
+
+.btn:hover {
+    background-color: #a317be; /* Purple color on hover */
+    color: white; /* White text color on hover */
+}
+
+.questionnaire-btn {
+    margin: 5px 0; /* Space between buttons */
+    background-color: white; /* White by default */
+    color: black; /* Black text by default */
+}
+
+.questionnaire-btn:hover {
+    background-color: #a317be; /* Purple color on hover */
+    color: white; /* White text on hover */
+}
+/* Dashboard styles */
+.dashboard-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.dashboard-item {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.dashboard-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-item h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-item canvas {
+    width: 100%;
+    height: 200px;
+}
+
+.dashboard-item p {
+    text-align: center;
+}

@@ -1,21 +1,160 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
-<h1 align="center">Notes</h1>
-<ul class="list-group list-group-flush" id="notes">
-  {% for note in user.notes %}
-  <li class="list-group-item">
-    {{ note.data }}
-    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </li>
-  {% endfor %}
-</ul>
-<form method="POST">
-  <textarea name="note" id="note" class="form-control"></textarea>
-  <br />
-  <div align="center">
-    <button type="submit" class="btn btn-primary">Add Note</button>
-  </div>
-</form>
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<style>
+    .dashboard-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100vh;
+        justify-content: center;
+        margin-top: -100px;
+    }
+    .dashboard-item {
+        width: 80%;
+        height: 75%;
+        margin: 18px;
+        text-align: center;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .dashboard-item h2 {
+        margin-bottom: 10px;
+    }
+    #weightTrackerButton {
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        color: #7d0dc3;
+        border: 2px solid #7d0dc3;
+        padding: 20px;
+        font-size: 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    #weightTrackerButton:hover {
+        background-color: #f0f0f0;
+    }
+    .canvas-container {
+        position: relative;
+        height: 150px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="dashboard-container">
+    <div class="dashboard-item workout-split" id="workoutSplitPreview">
+        <h2>Today's Workout</h2>
+        <p id="todaysWorkoutPreview">Loading today's workout...</p>
+    </div>
+    <div class="dashboard-item weight-tracker" id="weightTrackerPreview">
+        <button id="weightTrackerButton">
+            <div class="canvas-container">
+                <canvas id="weightChartPreview"></canvas>
+            </div>
+            <p id="weightTrackerText"></p>
+        </button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("weightTrackerButton").onclick = function() {
+            window.location.href = "{{ url_for('views.weight_tracker') }}";
+        };
+
+        fetchWeightsPreview();
+        fetchTodaysWorkout();
+    });
+
+    function fetchWeightsPreview() {
+        fetch("{{ url_for('views.get_weights') }}")
+            .then(response => response.json())
+            .then(data => {
+                updateWeightChartPreview(data);
+                updateWeightTrackerText(data);
+            })
+            .catch(error => {
+                console.error("Error fetching weights data:", error);
+            });
+    }
+
+    function updateWeightChartPreview(weights) {
+        const ctx = document.getElementById('weightChartPreview').getContext('2d');
+        const labels = weights.map(entry => entry.date);
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Weight (lbs)',
+                data: weights.map(entry => entry.weight),
+                backgroundColor: 'rgba(125, 13, 195, 0.2)',  // Purple color
+                borderColor: 'rgba(125, 13, 195, 1)',  // Purple color
+                borderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        };
+        const options = {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#a317be'  // Purple color
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#a317be'  // Purple color
+                    }
+                }
+            }
+        };
+
+        if (window.weightChartPreview) {
+            if (typeof window.weightChartPreview.destroy === 'function') {
+                window.weightChartPreview.destroy();
+            }
+        }
+
+        window.weightChartPreview = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    }
+
+    function updateWeightTrackerText(weights) {
+        const weightTrackerText = document.getElementById('weightTrackerText');
+        const entryCount = weights.length;
+        if (entryCount === 0) {
+            weightTrackerText.innerText = "Start tracking your weight today!";
+        } else if (entryCount === 1) {
+            weightTrackerText.innerText = "Track your weight";
+        } else {
+            weightTrackerText.innerText = `Congrats on tracking your weight for ${entryCount} days, keep your streak going!`;
+        }
+    }
+
+    function fetchTodaysWorkout() {
+        fetch("{{ url_for('views.get_todays_workout') }}")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('todaysWorkoutPreview').innerText = data.todays_workout;
+            })
+            .catch(error => {
+                console.error("Error fetching today's workout data:", error);
+            });
+    }
+</script>
 {% endblock %}

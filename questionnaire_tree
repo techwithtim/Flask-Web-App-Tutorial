@@ -1,0 +1,22 @@
+// Questionnaire Tree
+digraph {
+	1 [label="Are there any muscle groups you DO NOT want to exercise?"]
+	1.1 [label="Select all muscle groups you DO NOT want to exercise"]
+	2 [label="How many days a week do you want to workout?"]
+	2.1 [label="Do you want to workout on back to back days?"]
+	1 -> 1.1 [label=1]
+	condition1 [label=condition1 shape=box]
+	1 -> condition1 [label=2]
+	1.1 -> 2 [label=A]
+	1.1 -> 2 [label=B]
+	1.1 -> 2 [label=C]
+	1.1 -> 2 [label=D]
+	1.1 -> 2 [label=E]
+	2 -> 2.1 [label=1]
+	condition3 [label=condition3 shape=box]
+	2 -> condition3 [label=2]
+	condition3 [label=condition3 shape=box]
+	2.1 -> condition3 [label=1]
+	condition3 [label=condition3 shape=box]
+	2.1 -> condition3 [label=2]
+}
